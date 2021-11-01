@@ -1,0 +1,130 @@
+<html>
+  <head>
+    <title>Mission 1</title>
+    <meta charset="utf-8" />
+  </head>
+
+  <body>
+    <div id="app"></div>
+    <input type="text" id="inputList">
+    <button id="enterBtn">Enter</button>
+    <script>
+      const data1 = [
+        {
+          text: 'JS 공부하기',
+          isCompleted: true,
+        },
+        {
+          text: 'JS 복습하기',
+          isCompleted: false,
+        },
+        {
+          text: '아침 먹기',
+          isCompleted: false
+        }
+      ];
+
+      const data2 = [
+        {
+          text: 'CSS 공부하기',
+          isCompleted: true,
+        },
+        {
+          text: 'CSS 복습하기',
+          isCompleted: false,
+        },
+        {
+          text: '스터디 참가하기',
+          isCompleted: false
+        }
+      ];
+
+      const data3 = [
+        {
+          text: '운동 하기',
+          isCompleted: true,
+        },
+        {
+          text: '유튜브 보기',
+          isCompleted: false,
+        },
+        {
+          text: '독서 하기',
+          isCompleted: false
+        }
+      ];
+
+      const data4 = [
+        {
+          text: '전화 하기',
+          isCompleted: true,
+        },
+        {
+          text: '일정표 쓰기',
+          isCompleted: false,
+        },
+        {
+          text: '잠 자기',
+          isCompleted: true
+        }
+      ];
+
+
+      // 이곳에서 코딩을 시작하세요!
+      
+      // TodoList 생성자 함수 
+      function TodoList({ $target, data }) {
+        // new 미입력 체크
+        if (!new.target) throw new Error("Error Message: 생성자 함수 new 키워드를 입력 해 주세요.");
+        
+        // 파라미터에 배열 입력 체크
+        if (!Array.isArray(data)) {
+          throw new Error("Error Message: 올바른 데이터를 입력해주세요.");
+        }
+    
+        // 생성자 함수 초기화
+        this.data = data;
+        this.$todoList = document.createElement('div');
+        
+        $target.appendChild(this.$todoList);
+
+
+        this.render = () => {
+          this.$todoList.innerHTML = `
+            <ul>
+              ${this.data.map(({ text, isCompleted }) => `
+                <li>${isCompleted ? `<s>${text}</s>` : text}</li>`).join('')}
+            </ul>`;
+        }
+
+        // setState 함수
+        this.setState = (nextData) => {
+          this.data = nextData;
+          this.render();
+        }
+
+        this.render();
+
+      }
+
+      // 함수 생성
+      var todoList = new TodoList({
+        $target : document.querySelector('#app'),
+        data : data1
+      });
+      
+      var todoList2 = new TodoList({
+        $target : document.querySelector('#app'),
+        data : data2
+      });
+
+      var todoList3 = new TodoList({
+        $target : document.querySelector('#app'),
+        data : data3
+      });
+
+      todoList.setState(data3);
+
+    </script>
+  </body>
+</html>
