@@ -34,6 +34,8 @@ function App({ $target }) {
       this.setState(nextState);
     }
   });
+
+  
   const todoInput = new TodoInput({
     $target,
     onAddTodo: (text) => {

@@ -12,6 +12,8 @@ function TodoList({ $target, initialState, onTodoClick, onRemove }) {
   // 생성자 함수 초기화
   this.state = initialState;
   this.onTodoClick = onTodoClick;
+  this.onRemove = onRemove;
+
   $target.appendChild($todoList);
 
   this.setState = (nextState) => {
@@ -23,25 +25,23 @@ function TodoList({ $target, initialState, onTodoClick, onRemove }) {
   this.render = () => {
     $todoList.innerHTML = `
       <ul>
-        ${this.state.map(({ text, isCompleted }) => `
-          <li>${isCompleted ? `<s>${text}</s>` : text} <button>삭제</button></li>`).join('')}
+        ${this.state.map(({ text, isCompleted }, index) => `
+          <li class="TodoList_item" data-index="${index}">${isCompleted ? `<s>${text}</s>` : text} <button>삭제</button></li>`).join('')}
       </ul>`;
-    
-    $todoList.querySelectorAll('li').forEach(($li, i) => {
-      $li.addEventListener('click', () => {
-        onTodoClick(i);
-      })
-    })
-
-    $todoList.querySelectorAll('button').forEach(($button, i) => {
-      $button.addEventListener('click', (e) => {
-        e.stopPropagation(); // 이벤트 버블링 끄기
-        onRemove(i); // li 삭제하기
-      })
-    })
-
-
   }
+
+  
+// 이벤트 위임 구현 
+  $todoList.addEventListener('click', (e) => {
+    const $li = e.target.closest('.TodoList_item');
+
+    const { index: indexString } = $li.dataset;
+    const index = parseInt(indexString);
+    e.target.nodeName === 'BUTTON' ? onRemove(index) : onTodoClick(index);
+    }
+  )
+  
+  this.render();
 
 }
 
