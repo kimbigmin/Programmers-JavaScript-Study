@@ -1,4 +1,4 @@
-function TodoInput({ $target, onAddTodo }) {
+function TodoInput({ $target, onAddTodo, onRemoveAllClick }) {
   
   const $todoInput = document.createElement('form');
   $todoInput.type = 'text';
@@ -6,11 +6,13 @@ function TodoInput({ $target, onAddTodo }) {
   $target.appendChild($todoInput);
 
   this.onAddTodo = onAddTodo;
+  this.onRemoveAllClick = onRemoveAllClick;
 
   this.render = () => {
     $todoInput.innerHTML = `
       <input type="text">
       <button>Enter</button>
+      <button class="remove-all-button">Remove All</button>
     `
   }
 
@@ -29,4 +31,13 @@ function TodoInput({ $target, onAddTodo }) {
     }
   )
   
+  $todoInput.addEventListener('click', (e) => {
+    if (e.target.className === 'remove-all-button') {
+      onRemoveAllClick();
+    }
+  });
+
+
+
+
 }

@@ -46,7 +46,12 @@ function App({ $target }) {
           isCompleted: false
         }
       ])
-  }});
+    },
+    onRemoveAllClick: () => {
+      this.setState([]);
+    }
+    
+});
   const todoCount = new TodoCount({ $target, initialState:{
     totalCount: this.state.length,
     completedCount: this.state.filter(todo => todo.isCompleted).length
