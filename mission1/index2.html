@@ -6,32 +6,90 @@
 
   <body>
     <div id="todo-list"></div>
+    <div id="todo-list2"></div>
+    <div id="todo-list3"></div>
     <script>
       const data = [
         {
           text: "JS 공부하기",
+          isCompleted: true,
         },
         {
           text: "JS 복습하기",
+          isCompleted: false,
+        },
+      ];
+
+      const data2 = [
+        {
+          text: "CSS 공부하기",
+          isCompleted: false,
+        },
+        {
+          text: "CSS 복습하기",
+          isCompleted: false,
+        },
+      ];
+
+      const data3 = [
+        {
+          text: "HTML 공부하기",
+          isCompleted: true,
+        },
+        {
+          text: "HTML 복습하기",
+          isCompleted: true,
         },
       ];
       // 이곳에서 코딩을 시작하세요!
 
-      function TodoList(data) {
+      function TodoList({ $target, data }) {
+        if (data === null || data === undefined || !Array.isArray(data)) {
+          throw new Error("올바른 데이터를 입력해주세요.");
+        }
+
+        if (!new.target) {
+          throw new Error("new 를 입력해주세요");
+        }
+
         this.data = data;
 
         this.render = () => {
-          const $list = document.getElementById("todo-list");
+          $target.innerHTML = `
+            <ul>
+              ${this.data
+                .map(
+                  ({ text, isCompleted }) =>
+                    `<li>${isCompleted ? `<s>${text}</s>` : text}</li>`
+                )
+                .join("")}
+            </ul>`;
+        };
 
-          this.data.forEach((el) => {
-            $list.innerHTML += `<div>${el.text}</div>`;
-          });
+        this.setState = (nextData) => {
+          this.data = nextData;
+          this.render();
         };
       }
 
-      const todolist = new TodoList(data);
+      const todolist = new TodoList({
+        $target: document.getElementById("todo-list"),
+        data: data,
+      });
+      const todolist2 = new TodoList({
+        $target: document.getElementById("todo-list2"),
+        data: data2,
+      });
+      const todolist3 = new TodoList({
+        $target: document.getElementById("todo-list3"),
+        data: data3,
+      });
 
       todolist.render();
+      todolist2.render();
+      todolist3.render();
+
+      todolist.setState(data);
     </script>
   </body>
 </html>
