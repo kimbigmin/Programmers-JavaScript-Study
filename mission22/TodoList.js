@@ -14,8 +14,10 @@ function TodoList({ $target, data }) {
       <ul>
         ${this.data
           .map(
-            ({ text, isCompleted }) =>
-              `<li>${isCompleted ? `<s>${text}</s>` : text}</li>`
+            ({ text, isCompleted }, idx) =>
+              `<li class='todo' data-list='list${idx}'>${
+                isCompleted ? `<s>${text}</s>` : text
+              }<button class='delete-btn' data-list='list${idx}'>삭제</button></li>`
           )
           .join("")}
       </ul>`;
