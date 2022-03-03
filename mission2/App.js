@@ -1,24 +1,19 @@
 function App({ $target }) {
-  
-  this.state = [
-    {
-      text: 'js 공부하기',
-      isCompleted: false
-    },
-    {
-      text: '잠 자기',
-      isCompleted: true
-    }
-  ];
-  
-  this.setState = nextState => {
+  if (!localStorage.getItem("todo")) {
+    localStorage.setItem("todo", JSON.stringify([]));
+    this.state = JSON.parse(localStorage.getItem("todo"));
+  } else {
+    this.state = JSON.parse(localStorage.getItem("todo"));
+  }
+
+  this.setState = (nextState) => {
     this.state = nextState;
     todoList.setState(this.state);
     todoCount.setState({
       totalCount: this.state.length,
-      completedCount: this.state.filter(todo => todo.isCompleted).length
+      completedCount: this.state.filter((todo) => todo.isCompleted).length,
     });
-  }
+  };
 
   const todoList = new TodoList({
     $target,
@@ -26,38 +21,44 @@ function App({ $target }) {
     onTodoClick: (index) => {
       const nextState = [...this.state];
       nextState[index].isCompleted = !nextState[index].isCompleted;
+      localStorage.setItem("todo", JSON.stringify(nextState));
       this.setState(nextState);
     },
     onRemove: (index) => {
       const nextState = [...this.state];
       nextState.splice(index, 1);
+      localStorage.setItem("todo", JSON.stringify(nextState));
       this.setState(nextState);
-    }
+    },
   });
 
-  
   const todoInput = new TodoInput({
     $target,
     onAddTodo: (text) => {
-      this.setState([
-        ...this.state,
-        {
-          text,
-          isCompleted: false
-        }
-      ])
+      localStorage.setItem(
+        "todo",
+        JSON.stringify([
+          ...this.state,
+          {
+            text,
+            isCompleted: false,
+          },
+        ])
+      );
+      this.setState(JSON.parse(localStorage.getItem("todo")));
     },
     onRemoveAllClick: () => {
+      localStorage.setItem("todo", JSON.stringify([]));
       this.setState([]);
-    }
-    
-});
-  const todoCount = new TodoCount({ $target, initialState:{
-    totalCount: this.state.length,
-    completedCount: this.state.filter(todo => todo.isCompleted).length
-  }});
-
+    },
+  });
+  const todoCount = new TodoCount({
+    $target,
+    initialState: {
+      totalCount: this.state.length,
+      completedCount: this.state.filter((todo) => todo.isCompleted).length,
+    },
+  });
 
   todoList.render(this.state);
-
 }

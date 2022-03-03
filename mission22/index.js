@@ -45,14 +45,14 @@ todolist.render();
 console.log($deleteBtns);
 console.log($lists);
 
-$deleteBtns.forEach((el) => {
-  el.addEventListener("click", (e) => {
+[...$deleteBtns].forEach(($btn) => {
+  $btn.addEventListener("click", (e) => {
     console.log(e.target);
     if (e.target.dataset.list === undefined) return;
 
     const $parentNode = document.querySelector("ul");
     const removeList = [...$lists].filter(
-      (el) => e.target.dataset.list === el.dataset.list
+      ($list) => e.target.dataset.list === $list.dataset.list
     );
 
     $parentNode.removeChild(removeList[0]);
