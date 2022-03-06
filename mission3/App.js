@@ -9,7 +9,6 @@ export default function App($app) {
   this.setState = (nextState) => {
     this.state = { ...nextState };
     searchInput.setState(this.state);
-    searchResult.setState(this.state);
   };
 
   const searchInput = new SearchInput({
@@ -31,9 +30,12 @@ export default function App($app) {
           throw new Error(`에러가 발생했습니다. ${e.message}`);
         }
       };
-      this.state.data = await request();
-
-      console.log(this.state.data);
+      const apiResponse = await request();
+      this.setState({
+        ...this.state,
+        data: apiResponse,
+      });
+      console.log(this.state);
     },
   });
 

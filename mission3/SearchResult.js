@@ -2,7 +2,6 @@ export default function SearchResult({ $app, initialState }) {
   this.state = initialState;
   this.$target = document.createElement("div");
   this.$target.id = "search-result";
-
   $app.appendChild(this.$target);
 
   this.setState = (nextState) => {
@@ -11,13 +10,9 @@ export default function SearchResult({ $app, initialState }) {
   };
 
   this.render = () => {
-    this.$target.innerHTML = `<div>
-      ${this.state
-        .map((el) => {
-          return `<img src=${el.imageUrl}/>`;
-        })
-        .join("")}
-    </div>`;
+    this.$target.innerHTML = `
+      ${this.state.data.map((el) => `<img src="${el.imageUrl}">`).join("")}
+    `;
   };
 
   this.render();

@@ -3,20 +3,21 @@ import SearchResult from "./SearchResult.js";
 export default function SearchInput({ $app, initialState, onChangeInput }) {
   this.state = initialState;
   this.$target = document.createElement("input");
+  this.onChangeInput = onChangeInput;
 
   this.$target.id = "search-keyword";
   $app.appendChild(this.$target);
 
   this.setState = (nextState) => {
     this.state = nextState;
-    this.render();
+    searchResult.setState(this.state);
   };
 
-  this.$target.addEventListener("keyup", onChangeInput);
+  this.$target.addEventListener("keyup", this.onChangeInput);
 
   const searchResult = new SearchResult({
     $app,
-    initialState: this.state.data,
+    initialState: this.state,
   });
 
   searchResult.render();
