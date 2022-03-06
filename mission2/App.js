@@ -59,6 +59,4 @@ function App({ $target }) {
       completedCount: this.state.filter((todo) => todo.isCompleted).length,
     },
   });
-
-  todoList.render(this.state);
 }
