@@ -22,3 +22,14 @@ export const debounce = (callback, delay) => {
     timerId = setTimeout(callback, delay, event);
   };
 };
+
+export const SEARCH_EVENT_DISPATCH = "search";
+
+export const dispatch = (sendingValue) => {
+  const searchEvent = new CustomEvent(SEARCH_EVENT_DISPATCH, {
+    detail: {
+      value: sendingValue,
+    },
+  });
+  window.dispatchEvent(searchEvent);
+};
