@@ -1,4 +1,5 @@
 import SearchInput from "./SearchInput.js";
+import { request } from "./api.js";
 
 export default function App($app) {
   this.state = {
@@ -15,29 +16,16 @@ export default function App($app) {
     $app,
     initialState: this.state,
     onChangeInput: async (e) => {
+      console.log(e.target.value);
       if (e.target.value) {
         this.state.search = e.target.value;
       }
 
-      const request = async () => {
-        try {
-          const response = await fetch(
-            `https://jjalbot.com/api/jjals?text=${this.state.search}`
-          );
-
-          return await response.json();
-        } catch (e) {
-          throw new Error(`에러가 발생했습니다. ${e.message}`);
-        }
-      };
-      const apiResponse = await request();
+      const response = await request(this.state.search);
       this.setState({
         ...this.state,
-        data: apiResponse,
+        data: response,
       });
-      console.log(this.state);
     },
   });
-
-  console.log(this.state);
 }

@@ -1,4 +1,5 @@
 import SearchResult from "./SearchResult.js";
+import { debounce } from "./api.js";
 
 export default function SearchInput({ $app, initialState, onChangeInput }) {
   this.state = initialState;
@@ -13,12 +14,10 @@ export default function SearchInput({ $app, initialState, onChangeInput }) {
     searchResult.setState(this.state);
   };
 
-  this.$target.addEventListener("keyup", this.onChangeInput);
+  this.$target.addEventListener("keyup", debounce(this.onChangeInput, 300));
 
   const searchResult = new SearchResult({
     $app,
     initialState: this.state,
   });
-
-  searchResult.render();
 }
