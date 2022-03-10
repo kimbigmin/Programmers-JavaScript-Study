@@ -13,5 +13,5 @@ export default function SearchInput({ $app, initialState, onChangeInput }) {
     this.$target.value = this.state.search;
   };
 
-  this.$target.addEventListener("keyup", debounce(this.onChangeInput, 300));
+  this.$target.addEventListener("keyup", debounce(this.onChangeInput, 500));
 }
